@@ -8,3 +8,17 @@ https://regexr.com/
 
 SQL练习
 https://sqlzoo.net/
+
+正则表达式提取suse 12.2eth0 ip
+ifconfig|head -n2| grep -oE '([0-9]{1,3}[.]){3}[0-9]{1,3}'|head -n1
+
+ip 替换脚本
+#!/bin/bash
+new_ip=`ifconfig|head -n2| grep -oE '([0-9]{1,3}[.]){3}[0-9]{1,3}'|head -n1`
+usr=`cat /etc/passwd |grep 6601|awk -F: '{print $1}'`
+old_ip=$(su - ${usr} -c "cfg;cat env.local.xml | grep BootIP | head -n1 | grep -oE '([0-9]{1,3}[.]){3}[0-9]{1,3}'")
+xmlpath=$(su - ${usr} -c "cfg;pwd")
+cd ${xmlpath}/global
+sed -i s/${old_ip}/${new_ip}/g *.xml
+cd ../
+sed -i s/${old_ip}/${new_ip}/g *.xml
