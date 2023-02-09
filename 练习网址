@@ -22,3 +22,7 @@ cd ${xmlpath}/global
 sed -i s/${old_ip}/${new_ip}/g *.xml
 cd ../
 sed -i s/${old_ip}/${new_ip}/g *.xml
+
+
+微软桌面自动化工具
+power automate
