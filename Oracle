@@ -1,0 +1,13 @@
+Oracle查询表空间以及剩余量
+select ff.s tablespace_name, 
+ff.b total, 
+(ff.b - fr.b) usage, 
+fr.b free, 
+round((ff.b - fr.b) / ff.b * 100) || '% ' usagep 
+from (select tablespace_name s, sum(bytes) / 1024 / 1024 b 
+from dba_data_files 
+group by tablespace_name) ff, 
+(select tablespace_name s, sum(bytes) / 1024 / 1024 b 
+from dba_free_space 
+group by tablespace_name) fr 
+where ff.s = fr.s ;
